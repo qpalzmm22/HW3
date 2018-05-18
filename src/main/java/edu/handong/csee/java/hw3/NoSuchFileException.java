@@ -1,5 +1,5 @@
 package edu.handong.csee.java.hw3;
 
-public class DuplicteMessageException {
+public class NoSuchFileException {
 
 }
