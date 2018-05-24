@@ -1,5 +1,5 @@
 package edu.handong.csee.java.hw3;
 
-public class WindowsFileParser {
+public class WindowsFileParser extends MessageParser{
 
 }

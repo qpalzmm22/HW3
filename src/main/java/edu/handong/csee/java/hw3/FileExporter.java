@@ -1,5 +1,17 @@
 package edu.handong.csee.java.hw3;
 
-public class FileExporter {
+import java.util.*;
+import java.io.*;
 
+public class FileExporter {
+	File fileToExport;
+	
+	public FileExporter(File file) {
+		
+	}
+	
+	public void ExportTo(String path) {
+		
+	}
+	
 }
