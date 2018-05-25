@@ -29,4 +29,10 @@ public class NDMdata {
 	public void setMessage(String message) {
 		this.message = message;	
 	}
+	public boolean equalsTo(NDMdata compare) {
+		if((compare.getDate().equals(this.date) && compare.getName().equals(this.name)) && compare.getMessage().equals(this.message))
+			return true;
+		return false;
+	}
+	
 }

@@ -28,12 +28,16 @@ public class FileLoader {
 		return messages;
 	}
 	
-	//public HashMap<String, Set<NDMdata>> getRidOfDuplicates(){
-		//HashMap<String, Set <NDMdata>> messagesSet;
-		//for(String name : messages.keySet()) {
-		//	messagesSet. = messages.get(name)
-		//}
-	//}
+	public HashMap<String, ArrayList<NDMdata>> addUnique(HashMap<String, ArrayList<NDMdata>> hashMap, NDMdata data){
+		for(String name : hashMap.keySet()) {
+			for(NDMdata e: hashMap.get(name)) {
+				if(e.equalsTo(data))
+					return hashMap;
+			}
+		}
+		hashMap.get(data.getName()).add(data);
+		return hashMap; 
+	}
 	
 	public void loadMacFiles() {
 		for(File file: directory.listFiles()) {
@@ -50,8 +54,8 @@ public class FileLoader {
 					
 						if(!messages.containsKey(user))
 							messages.put(user, new ArrayList<NDMdata>());
-					
-						messages.get(user).add(new NDMdata(user, time, messageString));
+						
+						 messages = addUnique(messages, new NDMdata(user, time, messageString));
 					}
 				}
 				catch(Exception e) {
@@ -85,8 +89,8 @@ public class FileLoader {
 							Matcher m2 = r2.matcher(date);
 							
 							String time = "";
-							int hour = 0;
 							if(m2.find()) {
+								int hour = 0;
 								if(m2.group(1) != null) {
 									time = m2.group(2);
 									hour = Integer.parseInt(time.substring(0, time.length() - 3));
@@ -100,14 +104,18 @@ public class FileLoader {
 									if(m2.group(4).equals("PM"))
 										hour += 12;
 								}
-								date = hour + time.substring(time.length() - 3);
+								String strHour = Integer.toString(hour);
+								if(hour < 10)
+									 strHour = "0" + strHour;
+								
+								date = strHour + time.substring(time.length() - 3);
 							}
 							
 						}
 						if(!messages.containsKey(user))
 							messages.put(user, new ArrayList<NDMdata>());
 						
-						messages.get(user).add(new NDMdata(user, date, messageString));
+						messages = addUnique(messages, new NDMdata(user, date, messageString));
 					}
 				} catch (UnsupportedEncodingException | FileNotFoundException e) {
 					//System.out.println("Error 1");

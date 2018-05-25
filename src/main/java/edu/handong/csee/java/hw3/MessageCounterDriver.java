@@ -17,12 +17,24 @@ public class MessageCounterDriver {
 		fileLoader.loadMacFiles();
 		fileLoader.loadWindowsFiles();
 		
-		HashMap<String, ArrayList<NDMdata>> NMmap = fileLoader.getMessages(); 
-	
-		for(String name : NMmap.keySet()) {
-			for(NDMdata ndm : NMmap.get(name)) {
-				System.out.println(name+ " " + ndm.getDate() + " " + ndm.getMessage());
-			}
+		
+		HashMap<String, ArrayList<NDMdata>> NMlist = fileLoader.getMessages();
+		List<NMcount> nmCount = new ArrayList<NMcount>();
+
+		for(String name : NMlist.keySet()) {
+			
+			nmCount.add(new NMcount(name, NMlist.get(name).size()));
+			
+			//System.out.println(name + " " + NMlist.get(name).size());
+			//for(NDMdata ndm : NMlist.get(name)) {
+				//System.out.println(name+ " " + ndm.getDate() + " " + ndm.getMessage());
+			//}
+		}
+		
+		Collections.sort(nmCount);
+		
+		for(NMcount e : nmCount) {
+			e.print();
 		}
 	}
 }
