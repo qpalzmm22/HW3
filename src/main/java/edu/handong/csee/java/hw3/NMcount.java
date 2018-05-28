@@ -36,5 +36,4 @@ public class NMcount implements Comparable<NMcount>{
 			return -1;
 		return 0;
 	}
-	
 }

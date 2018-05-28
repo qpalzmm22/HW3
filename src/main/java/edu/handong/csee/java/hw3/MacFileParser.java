@@ -1,28 +1,34 @@
 package edu.handong.csee.java.hw3;
 
-
-import java.io.*;
-import java.lang.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
-public class MacFileParser extends MessageParser{
-	
-	public MacFileParser() {
-		super();
-	}
-	public MacFileParser(File macFile) {
-		super();
-	}
-	public void parseCSV() {
+public class MacFileParser extends FileParser{
+	public HashMap<String, ArrayList<NDMdata>> csvParser(HashMap<String, ArrayList<NDMdata>> messages, File file) {
+		Reader in;
 		try {
-			FileReader reader = new FileReader(fileToParse);
-			//NDMarray = new CsvToBeanBuilder(reader).withType(NDMdata.class).build().parse()
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			in = new FileReader(file);
+			Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(in);
+			for(CSVRecord record : records) {
+				String time = record.get(0).substring(11,16);
+				String user = record.get(1);
+				String messageString = record.get(2);
+				
+				if(!messages.containsKey(user))
+					messages.put(user, new ArrayList<NDMdata>());
+				
+				 messages = addUnique(messages, new NDMdata(user, time, messageString));
+			}
 		}
+		catch(Exception e) {
+		}
+		
+		return messages;
 	}
 }

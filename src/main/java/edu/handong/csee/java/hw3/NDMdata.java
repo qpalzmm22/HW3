@@ -30,7 +30,7 @@ public class NDMdata {
 		this.message = message;	
 	}
 	public boolean equalsTo(NDMdata compare) {
-		if((compare.getDate().equals(this.date) && compare.getName().equals(this.name)) && compare.getMessage().equals(this.message))
+		if((this.date.equals(compare.getDate()) && this.name.equals(compare.getName())) && this.message.startsWith(compare.getMessage()))
 			return true;
 		return false;
 	}

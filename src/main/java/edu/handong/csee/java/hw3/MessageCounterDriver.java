@@ -6,35 +6,30 @@ public class MessageCounterDriver {
 
 	public static void main(String[] args) {
 		MessageCounterDriver main = new MessageCounterDriver();
-		main.run();
+		main.run(args[1], args[3]);
 	}
 
-	private void run() {
+	private void run(String inputPath, String outputPath) {
 		System.out.println("Start!");
 		
-		FileLoader fileLoader = new FileLoader("C:\\Users\\qpalz\\Desktop\\HW3_data");
+		FileLoader fileLoader = new FileLoader(inputPath);
 		
 		fileLoader.loadMacFiles();
 		fileLoader.loadWindowsFiles();
+		System.out.println("------Loading Complete------");
 		
 		
 		HashMap<String, ArrayList<NDMdata>> NMlist = fileLoader.getMessages();
-		List<NMcount> nmCount = new ArrayList<NMcount>();
+		List<NMcount> ncList = new ArrayList<NMcount>();
 
 		for(String name : NMlist.keySet()) {
-			
-			nmCount.add(new NMcount(name, NMlist.get(name).size()));
-			
-			//System.out.println(name + " " + NMlist.get(name).size());
-			//for(NDMdata ndm : NMlist.get(name)) {
-				//System.out.println(name+ " " + ndm.getDate() + " " + ndm.getMessage());
-			//}
+			if(!name.equals(""))
+				ncList.add(new NMcount(name, NMlist.get(name).size()));	
 		}
+		Collections.sort(ncList);
 		
-		Collections.sort(nmCount);
-		
-		for(NMcount e : nmCount) {
-			e.print();
-		}
+		FileExporter fileExporter = new FileExporter(outputPath);
+		fileExporter.makeItCSVFile(ncList);
+		System.out.println("------Exporting Complete------");
 	}
 }
